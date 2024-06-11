@@ -10,8 +10,9 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         input2: input2,
         dropdown: dropdown
     };
-    
-    fetch('https://your-api-endpoint.com/api', {
+
+//    fetch('https://askalfred.vercel.app/api/askNew', {
+    fetch('https://askalfred.vercel.app', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +21,9 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('response').innerText = data.your_returned_value;
+//        document.getElementById('response').innerText = data.your_returned_value;
+        document.getElementById('response').innerText = JSON.stringify(data, null, 2); // Display the raw JSON response
+
     })
     .catch(error => {
         console.error('Error:', error);

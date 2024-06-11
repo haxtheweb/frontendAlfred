@@ -3,30 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ask Alfred Form </title>
+    <title>Ask Alfred</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="form-container">
-        <h1>Ask Alfred Form</h1>
+        <h1>Ask Alfred</h1>
         <form id="apiForm">
-            <label for="input1">Input 1:</label>
-            <input type="text" id="input1" name="input1" required>
-            
-            <label for="input2">Input 2:</label>
-            <input type="text" id="input2" name="input2" required>
-            
-            <label for="dropdown">Dropdown:</label>
+
+            <label for="dropdown">Course:</label>
             <select id="dropdown" name="dropdown" required>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="epubcyber440">epubcyber440</option>
+                <option value="phys211">phys211</option>
+                <option value="ciscopdfs">ciscopdfs</option>
             </select>
+            
+            <label for="question">Ask Alfred:</label>
+            <input type="text" id="question" name="question" required>
+            
             
             <button type="submit">Submit</button>
         </form>
         
-        <h2>Response:</h2>
+        <h2>Alfred's Answer:</h2>
         <div id="response"></div>
     </div>
     <script src="script.js"></script>
