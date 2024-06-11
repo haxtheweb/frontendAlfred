@@ -1,13 +1,11 @@
 document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
-    const input1 = document.getElementById('input1').value;
-    const input2 = document.getElementById('input2').value;
+    const question = document.getElementById('question').value;
     const dropdown = document.getElementById('dropdown').value;
     
     const data = {
-        input1: input1,
-        input2: input2,
+        question: question,
         dropdown: dropdown
     };
 
