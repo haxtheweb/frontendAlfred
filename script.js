@@ -2,11 +2,12 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
     
     const question = document.getElementById('question').value;
-    const dropdown = document.getElementById('dropdown').value;
-    
+    const course = document.getElementById('course').value;
+    const engine = document.getElementById('engine').value;
+
     const data = {
         question: question,
-        dropdown: dropdown
+        course: course
     };
 
 //    fetch('https://askalfred.vercel.app/api/askNew', {
