@@ -20,8 +20,7 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     .then(response => response.json())
     .then(data => {
 //        document.getElementById('response').innerText = data.your_returned_value;
-        document.getElementById('response').innerText = JSON.stringify(data, null, 2); // Display the raw JSON response
-
+        document.getElementById('response').innerText = data; 
     })
     .catch(error => {
         console.error('Error:', error);
