@@ -114,7 +114,6 @@ export default async function handler(req, res) {
 
 
     /////let llmResponse = await generateResponseOpenAI(llmPrompt);
-
     //call the appropriate engine
     
     switch (engine) {
@@ -128,20 +127,38 @@ export default async function handler(req, res) {
                 }
             }
             res.status(200).send(sendResponse);
-            
+
             break;
         }
         case "Robin": {
             let llmResponse = await generateResponseAnthropic(llmPrompt);
+
+            let sendResponse = {
+                "data":{
+                    answers: llmResponse,
+                    question: query
+                }
+            }
+            res.status(200).send(sendResponse);
+
             break;
         }
         default: {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
+
+            let sendResponse = {
+                "data":{
+                    answers: llmResponse,
+                    question: query
+                }
+            }
+            res.status(200).send(sendResponse);
+
             break;
         }
     }
     
-    
+    //ORIG
     /*
     let sendResponse = {
         "data":{
