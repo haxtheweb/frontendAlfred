@@ -62,7 +62,21 @@ const queryPinecone = async (course, query, topK = 15) => {
     }
 };
 
-const generateResponse = async (prompt) => {
+const generateResponseOpenAI = async (prompt) => {
+    try {
+        const response = await openai.chat.completions.create({
+            model: "gpt-4-turbo",
+            messages: [{ role: "user", content: prompt }],
+        });
+        return response.choices[0].message;
+
+    } catch (error) {
+        console.error(`Error generating response: ${error}`);
+        return null;
+    }
+};
+
+const generateResponseAnthropic = async (prompt) => {
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4-turbo",
@@ -81,6 +95,7 @@ export default async function handler(req, res) {
     const data = req.body;
     const query = data.question;
     const course = data.course;
+    const engine = data.engine;
 
     const response = await queryPinecone(course, query);
     if (!response) {
@@ -95,7 +110,20 @@ export default async function handler(req, res) {
     const combinedText = chunks.join(" ");
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
-    const llmResponse = await generateResponse(llmPrompt);
+    
+    const llmResponse = "";
+    //call the appropriate engine
+    switch (engine) {
+    case "Alfred":
+        llmResponse = await generateResponseOpenAI(llmPrompt);
+        break;
+    case "Robin":
+        llmResponse = await generateResponseAnthropic(llmPrompt);
+        break;
+    default:
+        llmResponse = await generateResponseOpenAI(llmPrompt);
+        break;
+    }
 
     let sendResponse = {
         "data":{

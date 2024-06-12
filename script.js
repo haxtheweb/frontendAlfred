@@ -7,7 +7,8 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
 
     const data = {
         question: question,
-        course: course
+        course: course,
+        engine: engine
     }; 
 
     fetch('https://frontend-alfred.vercel.app/api/askNew', {
