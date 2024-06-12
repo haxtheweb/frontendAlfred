@@ -1,6 +1,6 @@
 document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    
+
     const question = document.getElementById('question').value;
     const course = document.getElementById('course').value;
     const engine = document.getElementById('engine').value;
@@ -11,7 +11,6 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     };
 
     fetch('https://askalfred.vercel.app/api/askNew', {
-//    fetch('https://askalfred.vercel.app', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,10 +18,14 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         body: JSON.stringify(data),
         mode: 'cors'
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        document.getElementById('response').innerText = data.answers;
-//        document.getElementById('response').innerText = data; 
+        document.getElementById('response').innerText = data.your_returned_value;
     })
     .catch(error => {
         console.error('Error:', error);
