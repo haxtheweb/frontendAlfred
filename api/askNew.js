@@ -90,8 +90,8 @@ const generateResponseAnthropic = async (prompt) => {
     try {
         const response = await anthropic.completions.create({
             prompt: `\n\nHuman: ${prompt}\n\nAssistant:`,
-            model: 'claude-v1'
-            //max_tokens_to_sample: 1000,
+            model: 'claude-v1',
+            max_tokens_to_sample: 1000,
         });
         console.log("answer coming...");
         console.log(response.completion);
