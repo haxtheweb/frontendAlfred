@@ -111,8 +111,16 @@ export default async function handler(req, res) {
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
     
+
+
+    console.log(engine);
     const llmResponse = "";
+
     //call the appropriate engine
+
+    llmResponse = await generateResponseOpenAI(llmPrompt);
+
+    /*
     switch (engine) {
     case "Alfred":
         llmResponse = await generateResponseOpenAI(llmPrompt);
@@ -124,6 +132,7 @@ export default async function handler(req, res) {
         llmResponse = await generateResponseOpenAI(llmPrompt);
         break;
     }
+    */
 
     let sendResponse = {
         "data":{

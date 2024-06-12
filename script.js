@@ -13,6 +13,7 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
 
     fetch('https://frontend-alfred.vercel.app/api/askNew', {
     //fetch('http://localhost:3001/proxy', {
+    //fetch('http://localhost:3000/api/askNew', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
