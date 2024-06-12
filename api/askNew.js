@@ -93,8 +93,8 @@ const generateResponseAnthropic = async (prompt) => {
             model: 'claude-v1',
             max_tokens_to_sample: 1000,
         });
-        console.log("answer coming...");
-        console.log(response.completion);
+        //console.log("answer coming...");
+        //console.log(response.completion);
         return response.completion;
 
     } catch (error) {
@@ -143,6 +143,9 @@ export default async function handler(req, res) {
         }
         case "Robin": {
             let llmResponse = await generateResponseAnthropic(llmPrompt);
+
+            console.log("answer after...");
+            console.log(llmResponse);
 
             let sendResponse = {
                 "data":{
