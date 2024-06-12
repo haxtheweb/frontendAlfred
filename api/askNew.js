@@ -156,6 +156,20 @@ export default async function handler(req, res) {
             res.status(200).send(sendResponse);
             break;
         }
+        case "Catwoman": {
+            let llmResponseBlank = `Answer the query: ${query}`;
+            let llmResponse = await generateResponseOpenAI(llmResponseBlank);
+
+            let sendResponse = {
+                "data":{
+                    answers: llmResponse,
+                    question: query
+                }
+            }
+            res.status(200).send(sendResponse);
+
+            break;
+        }
         default: {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
 
