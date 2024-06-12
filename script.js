@@ -30,7 +30,7 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     .then(data => {
         //const content = data.data.answers.content;
         //ORIG^^^
-        const content = data.answers;
+        const content = data.data.answers;
         document.getElementById('response').innerText = content;
     })
     .catch(error => {
