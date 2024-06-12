@@ -76,6 +76,7 @@ const generateResponseOpenAI = async (prompt) => {
     }
 };
 
+/*
 const generateResponseAnthropic = async (prompt) => {
     try {
         const response = await openai.chat.completions.create({
@@ -89,6 +90,7 @@ const generateResponseAnthropic = async (prompt) => {
         return null;
     }
 };
+*/
 
 export default async function handler(req, res) {
     try {
@@ -114,11 +116,11 @@ export default async function handler(req, res) {
 
 
     console.log(engine);
-    const llmResponse = "";
+    //const llmResponse = "";
 
     //call the appropriate engine
 
-    llmResponse = await generateResponseOpenAI(llmPrompt);
+    const llmResponse = await generateResponseOpenAI(llmPrompt);
 
     /*
     switch (engine) {
