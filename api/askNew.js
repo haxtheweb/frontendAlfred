@@ -3,6 +3,7 @@ dotenv.config()
 
 const PINECONE_API_KEY = process.env.PINECONE_APIKEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const OPENAI_EMBEDDING_MODEL = "text-embedding-ada-002";
 
 const PineconeClient = require('@pinecone-database/pinecone').Pinecone;
@@ -15,6 +16,15 @@ const openai = new OpenAI({
     apiKey: OPENAI_API_KEY,
 });
 
+const Anthropic = require('@anthropic-ai/sdk');
+const anthropic = new Anthropic({
+    apiKey: ANTHROPIC_API_KEY,
+});
+//this might not be right^^^
+
+
+
+//functions starting here
 const getEmbedding = async (chunk) => {
     const url = 'https://api.openai.com/v1/embeddings';
 
@@ -76,19 +86,23 @@ const generateResponseOpenAI = async (prompt) => {
     }
 };
 
+//Two different GPT engines above and below
+
 const generateResponseAnthropic = async (prompt) => {
     try {
-        const response = await openai.chat.completions.create({
-            model: "gpt-4-turbo",
-            messages: [{ role: "user", content: prompt }],
+        const response = await anthropic.completions.create({
+            prompt: `\n\nHuman: ${prompt}\n\nAssistant:`,
+            model: 'claude-v1',
+            max_tokens_to_sample: 1000,
         });
-        return response.choices[0].message;
+        return response.completion;
 
     } catch (error) {
         console.error(`Error generating response: ${error}`);
         return null;
     }
 };
+
 
 export default async function handler(req, res) {
     try {
@@ -112,10 +126,7 @@ export default async function handler(req, res) {
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
     
 
-
-    /////let llmResponse = await generateResponseOpenAI(llmPrompt);
-    //call the appropriate engine
-    
+    //call the appropriate engine    
     switch (engine) {
         case "Alfred": {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
