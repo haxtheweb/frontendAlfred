@@ -90,11 +90,11 @@ const generateResponseAnthropic = async (prompt) => {
     try {
         const response = await anthropic.completions.create({
             prompt: `\n\nHuman: ${prompt}\n\nAssistant:`,
-            model: 'claude-v1',
-            max_tokens_to_sample: 1000,
+            model: 'claude-v1'
+            //max_tokens_to_sample: 1000,
         });
-        //console.log("answer coming...");
-        //console.log(response.completion);
+        console.log("answer coming...");
+        console.log(response.completion);
         return response.completion;
 
     } catch (error) {
@@ -127,6 +127,7 @@ export default async function handler(req, res) {
     
 
     //call the appropriate engine    
+/*
     switch (engine) {
         case "Alfred": {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
@@ -142,6 +143,7 @@ export default async function handler(req, res) {
             break;
         }
         case "Robin": {
+*/
             let llmResponse = await generateResponseAnthropic(llmPrompt);
 
             console.log("answer after...");
@@ -155,6 +157,7 @@ export default async function handler(req, res) {
             }
             res.status(200).send(sendResponse);
 
+/*
             break;
         }
         default: {
@@ -171,6 +174,7 @@ export default async function handler(req, res) {
             break;
         }
     }
+*/
     
     //ORIG
     /*
