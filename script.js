@@ -10,12 +10,11 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         course: course
     };
 
-    fetch('https://askalfred.vercel.app/api/askNew', {
+    fetch('https://frontend-alfred.vercel.app/api/askNew', {
     //fetch('http://localhost:3001/proxy', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Origin': 'https://frontend-alfred.vercel.app/' // Replace with your frontend origin if needed
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
         mode: 'cors'
