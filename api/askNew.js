@@ -111,10 +111,24 @@ export default async function handler(req, res) {
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
     
+
+
+    /////let llmResponse = await generateResponseOpenAI(llmPrompt);
+
     //call the appropriate engine
+    
     switch (engine) {
         case "Alfred": {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
+
+            let sendResponse = {
+                "data":{
+                    answers: llmResponse,
+                    question: query
+                }
+            }
+            res.status(200).send(sendResponse);
+            
             break;
         }
         case "Robin": {
@@ -127,6 +141,8 @@ export default async function handler(req, res) {
         }
     }
     
+    
+    /*
     let sendResponse = {
         "data":{
             answers: llmResponse,
@@ -136,6 +152,7 @@ export default async function handler(req, res) {
 
     res.status(200).send(sendResponse);
     //res.status(200).json(sendResponse);
+    */
 
     } catch (error) {
         console.error('Unhandled error in handler:', error);
