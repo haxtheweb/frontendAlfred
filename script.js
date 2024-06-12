@@ -28,7 +28,9 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         return response.json();
     })
     .then(data => {
-        const content = data.data.answers.content;
+        //const content = data.data.answers.content;
+        //ORIG^^^
+        const content = data.answers;
         document.getElementById('response').innerText = content;
     })
     .catch(error => {
