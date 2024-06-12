@@ -76,7 +76,6 @@ const generateResponseOpenAI = async (prompt) => {
     }
 };
 
-/*
 const generateResponseAnthropic = async (prompt) => {
     try {
         const response = await openai.chat.completions.create({
@@ -90,7 +89,6 @@ const generateResponseAnthropic = async (prompt) => {
         return null;
     }
 };
-*/
 
 export default async function handler(req, res) {
     try {
@@ -113,29 +111,22 @@ export default async function handler(req, res) {
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
     
-
-
-    console.log(engine);
-    //const llmResponse = "";
-
     //call the appropriate engine
-
-    const llmResponse = await generateResponseOpenAI(llmPrompt);
-
-    /*
     switch (engine) {
-    case "Alfred":
-        llmResponse = await generateResponseOpenAI(llmPrompt);
-        break;
-    case "Robin":
-        llmResponse = await generateResponseAnthropic(llmPrompt);
-        break;
-    default:
-        llmResponse = await generateResponseOpenAI(llmPrompt);
-        break;
+        case "Alfred": {
+            let llmResponse = await generateResponseOpenAI(llmPrompt);
+            break;
+        }
+        case "Robin": {
+            let llmResponse = await generateResponseAnthropic(llmPrompt);
+            break;
+        }
+        default: {
+            let llmResponse = await generateResponseOpenAI(llmPrompt);
+            break;
+        }
     }
-    */
-
+    
     let sendResponse = {
         "data":{
             answers: llmResponse,
