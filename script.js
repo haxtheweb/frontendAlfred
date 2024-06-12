@@ -8,7 +8,7 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     const data = {
         question: question,
         course: course
-    };
+    }; 
 
     fetch('https://frontend-alfred.vercel.app/api/askNew', {
     //fetch('http://localhost:3001/proxy', {
