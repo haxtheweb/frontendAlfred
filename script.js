@@ -10,18 +10,19 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         course: course
     };
 
-//    fetch('https://askalfred.vercel.app/api/askNew', {
-    fetch('https://askalfred.vercel.app', {
+    fetch('https://askalfred.vercel.app/api/askNew', {
+//    fetch('https://askalfred.vercel.app', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        mode: 'cors'
     })
     .then(response => response.json())
     .then(data => {
-//        document.getElementById('response').innerText = data.your_returned_value;
-        document.getElementById('response').innerText = data; 
+        document.getElementById('response').innerText = data.answers;
+//        document.getElementById('response').innerText = data; 
     })
     .catch(error => {
         console.error('Error:', error);
