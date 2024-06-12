@@ -20,8 +20,6 @@ const Anthropic = require('@anthropic-ai/sdk');
 const anthropic = new Anthropic({
     apiKey: ANTHROPIC_API_KEY,
 });
-//this might not be right^^^
-
 
 
 //functions starting here
@@ -95,6 +93,8 @@ const generateResponseAnthropic = async (prompt) => {
             model: 'claude-v1',
             max_tokens_to_sample: 1000,
         });
+        console.log("answer coming...");
+        console.log(response.completion);
         return response.completion;
 
     } catch (error) {
