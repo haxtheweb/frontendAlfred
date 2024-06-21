@@ -1,4 +1,9 @@
 {"version": 2, 
+"functions": {
+  "api/*.js": {
+    "maxDuration": 300
+  }
+},
 "rewrites": [{"source": "/(.*)", "destination": "/"}],
 "headers": [
     {
