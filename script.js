@@ -14,7 +14,8 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     //const apiBaseUrl = process.env.VERCEL_URL;
     //const apiBaseUrl = NEXT_PUBLIC_VERCEL_URL;
     //const apiUrl = `https://${apiBaseUrl}/api/askNew`;
-    const apiUrl = `/api/askNew`;
+    //const apiUrl = `/api/askNew`;
+    const apiUrl = `https://hax-ai-alfred.vercel.app/api/askNew`;
     fetch(apiUrl, {
         method: 'POST',
         headers: {
