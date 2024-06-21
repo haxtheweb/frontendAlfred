@@ -6,6 +6,9 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const OPENAI_EMBEDDING_MODEL = "text-embedding-ada-002";
 
+console.log("pinecone api key");
+console.log(PINECONE_API_KEY);
+
 const PineconeClient = require('@pinecone-database/pinecone').Pinecone;
 const pc = new PineconeClient({
     apiKey: PINECONE_API_KEY,
