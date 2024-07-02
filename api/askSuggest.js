@@ -127,8 +127,7 @@ export default async function handler(req, res) {
     //ORIG - not including suggested prompts
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}.
-      In addition, give me three suggestions for topics related to ${query} and label them as ONE, TWO, and THREE and then
-      also use a delimiter of ^ at the end of each of these.
+      In addition, give me three suggestions for topics related to ${query} and label them as ONE, TWO, and THREE.
       `;
 
     //call the appropriate engine    
