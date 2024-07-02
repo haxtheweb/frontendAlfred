@@ -140,6 +140,8 @@ export default async function handler(req, res) {
             const oneMatch = textStr.match(/ONE:(.*?)\^/s);
             const twoMatch = textStr.match(/TWO:(.*?)\^/s);
             const threeMatch = textStr.match(/THREE:(.*?)\^/s);
+
+            console.log(oneMatch);
           
             const one = oneMatch ? oneMatch[1].trim() : null;
             const two = twoMatch ? twoMatch[1].trim() : null;
@@ -147,7 +149,7 @@ export default async function handler(req, res) {
 
             let sendResponse = {
                 "data":{
-                    answers: llmResponse,
+                    answers: llmResponse.content,
                     question: query,
                     suggestedPrompts : {
                         one: one,
