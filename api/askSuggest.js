@@ -136,9 +136,10 @@ export default async function handler(req, res) {
         case "Alfred": {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
 
-            const oneMatch = llmResponse.match(/ONE:(.*?)\^/s);
-            const twoMatch = llmResponse.match(/TWO:(.*?)\^/s);
-            const threeMatch = llmResponse.match(/THREE:(.*?)\^/s);
+            const textStr = String(llmResponse); // Ensure text is a string
+            const oneMatch = textStr.match(/ONE:(.*?)\^/s);
+            const twoMatch = textStr.match(/TWO:(.*?)\^/s);
+            const threeMatch = textStr.match(/THREE:(.*?)\^/s);
           
             const one = oneMatch ? oneMatch[1].trim() : null;
             const two = twoMatch ? twoMatch[1].trim() : null;
