@@ -127,7 +127,8 @@ export default async function handler(req, res) {
     //ORIG - not including suggested prompts
 
     const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}.
-      In addition, give me three suggestions for topics related to ${query} and label them as ONE, TWO, and THREE.
+      In addition, give me three suggestions for topics related to ${query} and label them as ONE, TWO, and THREE and 
+      also add a delimiter of ^^^ at the end of each topic as well as a delimiter of @@@ before starting with ONE.
       `;
 
     //call the appropriate engine    
@@ -135,20 +136,25 @@ export default async function handler(req, res) {
         case "Alfred": {
             let llmResponse = await generateResponseOpenAI(llmPrompt);
 
-            const textStr = String(llmResponse); // Ensure text is a string
+            const textStr = String(llmResponse.content); // Ensure text is a string
             const oneMatch = textStr.match(/ONE:(.*?)\^/s);
             const twoMatch = textStr.match(/TWO:(.*?)\^/s);
             const threeMatch = textStr.match(/THREE:(.*?)\^/s);
 
-            console.log(oneMatch);
+            //console.log(textStr);
           
             const one = oneMatch ? oneMatch[1].trim() : null;
             const two = twoMatch ? twoMatch[1].trim() : null;
             const three = threeMatch ? threeMatch[1].trim() : null;
 
+            let text = llmResponse.content;
+            let startIndex = text.indexOf("@@@");
+            text = text.slice(0, startIndex);
+            //console.log(text)
+
             let sendResponse = {
                 "data":{
-                    answers: llmResponse.content,
+                    answers: text,
                     question: query,
                     suggestedPrompts : {
                         one: one,
