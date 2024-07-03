@@ -226,7 +226,8 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('Unhandled error in handler:', error);
-        res.status(500).send('Internal Server Error');
+        //res.status(500).send('Internal Server Error');
+        res.status(400).send('Invalid input data; no POST data supplied.');
     }
 };
 
