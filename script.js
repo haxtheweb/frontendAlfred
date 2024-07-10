@@ -42,3 +42,40 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
         document.getElementById('response').innerText = 'An error occurred';
     });
 });
+
+
+document.getElementById('courseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const url = document.getElementById('courseCreate').value;
+
+    const data = {
+        url: url
+    }; 
+
+    const apiUrl = `https://ai.hax.cloud/api/addNewFromURL`;
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+        mode: 'cors'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const content = data.data.answers.content;
+        //ORIG^^^
+        //const content = data.data.answers;
+        document.getElementById('response').innerText = content;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('response').innerText = 'An error occurred';
+    });
+});
