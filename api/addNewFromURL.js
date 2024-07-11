@@ -49,21 +49,6 @@ const createIndex = async (INDEX_NAME) => {
 
 };
 
-
-const scrapeWebsite = async (url) => {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        }
-        const data = await response.text();
-        return data;
-        } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-        }
-};
-
-
 const chunkText = async (text) => {
     const chunkSize = 2048;
     const sentences = text.split(". ");
@@ -152,21 +137,32 @@ export default async function handler(req, res) {
     const haxURL = 'https://haxapi.vercel.app/api/apps/haxcms/siteToHtml?site=' + fullURL + 
         '&type=link&magic=https://cdn.webcomponents.psu.edu/cdn/';
 
-    const index = extractedPart;
+    try {
+            const response = await fetch(haxURL);
+            if (!response.ok) {
+                throw new Error('Network response was not ok. Invalid URL');
+            }
+            const urlText = await response.text();
 
-    await createIndex(index);
-    const urlText = await scrapeWebsite(haxURL);
-    const chunks = await chunkText(urlText);
-    await embedChunksAndUploadToPinecone(chunks, index);
+            const index = extractedPart;
+            await createIndex(index);
 
-    const messageReturn = "Chunks embedded and stored successfully";
-    let sendResponse = {
-        "data":{
-            message: messageReturn,
-            course: index
+            const chunks = await chunkText(urlText);
+            await embedChunksAndUploadToPinecone(chunks, index);
+
+            const messageReturn = "Chunks embedded and stored successfully";
+            let sendResponse = {
+                "data":{
+                    message: messageReturn,
+                    course: index
+                }
+            }
+            res.status(200).send(sendResponse);
+
+        } catch (error) {
+            console.error('Invlaid URL:', error);
+            res.status(400).send('Invalid URL');
         }
-    }
-    res.status(200).send(sendResponse);
 
     } catch (error) {
         console.error('Unhandled error in handler:', error);

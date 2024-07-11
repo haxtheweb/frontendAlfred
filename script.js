@@ -45,6 +45,7 @@ document.getElementById('courseForm').addEventListener('submit', function(event)
     }; 
 
     const apiUrl = `https://ai.hax.cloud/api/addNewFromURL`;
+//    const apiUrl = `http://localhost:3000/api/addNewFromURL`;
     fetch(apiUrl, {
         method: 'POST',
         headers: {
