@@ -70,8 +70,6 @@ document.getElementById('courseForm').addEventListener('submit', function(event)
     })
     .then(data => {
         const content = data.data.message;
-        //ORIG^^^
-        //const content = data.data.answers;
         document.getElementById('responseAdd').innerText = content;
     })
     .catch(error => {
