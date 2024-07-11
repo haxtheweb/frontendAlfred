@@ -1,5 +1,3 @@
-import { all } from 'axios';
-
 const dotenv = require('dotenv');
 dotenv.config()
 
