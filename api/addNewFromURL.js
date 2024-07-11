@@ -1,5 +1,3 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
 const dotenv = require('dotenv');
 dotenv.config()
 
@@ -54,13 +52,15 @@ const createIndex = async (INDEX_NAME) => {
 
 const scrapeWebsite = async (url) => {
     try {
-        const response = await axios.get(url);
-        const $ = cheerio.load(response.data);
-        const text = $('body').text().replace(/\n\s*\n/g, '\n');
-        return text;
-    } catch (error) {
-        console.error(error);
-    }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        const data = await response.text();
+        return data;
+        } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        }
 };
 
 
@@ -87,23 +87,31 @@ const chunkText = async (text) => {
 };
 
 
-async function getEmbedding(chunk) {
+const getEmbedding = async (chunk) => {
     const url = 'https://api.openai.com/v1/embeddings';
+
     const headers = {
         'Content-Type': 'application/json; charset=utf-8',
         'Authorization': `Bearer ${OPENAI_API_KEY}`
     };
+
     const data = {
-        model: OPENAI_EMBEDDING_MODEL,
-        input: chunk
+        'model': OPENAI_EMBEDDING_MODEL,
+        'input': chunk
     };
 
     try {
-        const response = await axios.post(url, data, { headers });
-        const embedding = response.data.data[0].embedding;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        });
+        const responseJson = await response.json();
+        const embedding = responseJson.data[0].embedding;
         return embedding;
     } catch (error) {
-        console.error('Error fetching embedding:', error);
+        console.error('Error fetching the embedding:', error);
+        return null;
     }
 };
 
@@ -145,7 +153,6 @@ export default async function handler(req, res) {
         '&type=link&magic=https://cdn.webcomponents.psu.edu/cdn/';
 
     const index = extractedPart;
-
 
     await createIndex(index);
     const urlText = await scrapeWebsite(haxURL);
