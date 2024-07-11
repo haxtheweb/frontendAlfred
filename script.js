@@ -69,10 +69,10 @@ document.getElementById('courseForm').addEventListener('submit', function(event)
         return response.json();
     })
     .then(data => {
-        const content = data.data.answers.content;
+        const content = data.data.message;
         //ORIG^^^
         //const content = data.data.answers;
-        document.getElementById('response').innerText = content;
+        document.getElementById('responseAdd').innerText = content;
     })
     .catch(error => {
         console.error('Error:', error);
