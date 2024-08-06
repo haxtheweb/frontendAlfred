@@ -1,6 +1,9 @@
 document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
+    document.getElementById('spinner').style.display = 'block';
+
+
     const question = document.getElementById('question').value;
     const course = document.getElementById('course').value;
     const engine = document.getElementById('engine').value;
@@ -29,6 +32,7 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     .then(data => {
         const content = data.data.answers.content;
         document.getElementById('response').innerText = content;
+        document.getElementById('spinner').style.display = 'none';
     })
     .catch(error => {
         console.error('Error:', error);
