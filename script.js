@@ -3,7 +3,6 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
 
     document.getElementById('spinner').style.display = 'block';
 
-
     const question = document.getElementById('question').value;
     const course = document.getElementById('course').value;
     const engine = document.getElementById('engine').value;
@@ -15,6 +14,8 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     }; 
 
     const apiUrl = `https://ai.hax.cloud/api/askNew`;
+//    const apiUrl = `http://localhost:3000/api/askNew`;
+
     fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -32,15 +33,18 @@ document.getElementById('apiForm').addEventListener('submit', function(event) {
     .then(data => {
         const content = data.data.answers.content;
         document.getElementById('response').innerText = content;
-        document.getElementById('spinner').style.display = 'none';
     })
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('response').innerText = 'An error occurred';
+    })
+    .finally(() => {
+        document.getElementById('spinner').style.display = 'none';
     });
 });
 
 
+/*
 document.getElementById('courseForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const url = document.getElementById('courseCreate').value;
@@ -73,10 +77,13 @@ document.getElementById('courseForm').addEventListener('submit', function(event)
         document.getElementById('response').innerText = 'An error occurred';
     });
 });
+*/
 
 
 document.getElementById('fetchButton').addEventListener('click', function() {
     const apiUrl = `https://ai.hax.cloud/api/fetchCourses`;
+//    const apiUrl = `http://localhost:3000/api/fetchCourses`;
+
     fetch(apiUrl) 
         .then(response => response.json())
         .then(data => {
