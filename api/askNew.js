@@ -123,7 +123,8 @@ export default async function handler(req, res) {
 
     const combinedText = chunks.join(" ");
 
-    const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
+    //const llmPrompt = `Based on the following information, answer the query: ${query}\n\n${combinedText}`;
+    const llmPrompt = `Based on the following data, answer this query using only the information that's been provided: ${query}\n\n${combinedText}`;
     
 
     //call the appropriate engine    

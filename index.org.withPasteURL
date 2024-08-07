@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Alfred</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Ask Alfred</h1>
+        <form id="apiForm">
+
+            <label for="course">Course:</label>
+            <select id="course" name="course" required>
+                <option value="">Select a course</option>
+            </select>
+            <button type="button" id="fetchButton">Fetch Courses</button>
+            <br>
+
+            <label for="question">Ask Alfred:</label>
+            <input type="text" id="question" name="question" required>
+            
+            <label for="engine">Engine:</label>
+            <select id="engine" name="engine" required>
+                <option value="Alfred">Alfred - OpenAI</option>
+                <option value="Robin">Robin - Anthropic</option>
+                <option value="Catwoman">Catwoman - ChatGPT only</option>
+            </select>
+
+            <button type="submit">Submit</button>
+        </form>
+        
+        <h2>Answer:</h2>
+        <div id="response"></div>
+    </div>
+
+
+    <div class="form-container">
+        <h1>Create Course</h1>
+        <form id="courseForm">
+            <label for="course">Course - Paste URL:</label>
+            <input type="text" id="courseCreate" name="courseCreate" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2>Response:</h2>
+        <div id="responseAdd"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
