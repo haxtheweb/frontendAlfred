@@ -8,16 +8,22 @@
 </head>
 <body>
     <div class="form-container">
-        <form id="apiForm">
+        <form id="icdsForm">
 
             <h1>Ask ICDS</h1>
+
+            <select id="icds-course" name="icds-course" required></select>
+                <option value="">aa100su23</option>
+            </select>
+
             <label for="icds-question">Ask ICDS:</label>
             <input type="text" id="icds-question" name="icds-question" required>
 
             <button type="submit">Submit</button>
 
-        
+        </form>
 
+        <form id="apiForm">
             <h1>Ask Alfred</h1>
             <label for="course">Course:</label>
             <select id="course" name="course" required>
@@ -38,6 +44,7 @@
 
             <button type="submit">Submit</button>
         </form>
+
         <div id="spinner" class="spinner" style="display: none;"></div>
         
         <h2>Answer:</h2>
