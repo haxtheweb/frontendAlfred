@@ -134,7 +134,7 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
         return response.json();
     })
     .then(data => {
-        const content = data.data.answers.content;
+        const content = data.data.result.content;
         document.getElementById('response').innerText = content;
     })
     .catch(error => {
