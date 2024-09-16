@@ -69,3 +69,10 @@ button:hover {
     border: 1px solid #ccc;
 }
 
+#icds-response {
+    border: 2px solid black; /* Change color and thickness as needed */
+    padding: 10px;           /* Space between the border and the content */
+    margin: 10px;            /* Space outside the border */
+    border-radius: 5px;      /* Optional: rounded corners */
+    background-color: #f9f9f9; /* Optional: background color */
+}
