@@ -145,3 +145,34 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
         document.getElementById('spinner').style.display = 'none';
     });
 });
+
+
+async function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('Please select a file!');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('http://localhost:5000/upload', { // Update the URL to match your server's endpoint
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            document.getElementById('uploadResponse').innerText = 'File uploaded successfully: ' + result.text;
+        } else {
+            document.getElementById('uploadResponse').innerText = 'File upload failed: ' + response.statusText;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('uploadResponse').innerText = 'An error occurred during file upload.';
+    }
+}

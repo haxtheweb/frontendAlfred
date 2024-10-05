@@ -8,6 +8,20 @@
 </head>
 <body>
     <div class="form-container">
+
+        <form id="uploadForm">
+            <h1>Upload a Word Document</h1>
+            <label for="fileInput">Choose a .docx file:</label>
+            <input type="file" id="fileInput" accept=".docx" required>
+            <button type="button" onclick="uploadFile()">Upload</button>
+        </form>
+
+        <h2>File Upload Response:</h2>
+        <div id="uploadResponse"></div>
+
+        <br><br>
+
+
         <form id="icdsForm">
 
             <h1>Ask ICDS</h1>
