@@ -160,7 +160,7 @@ async function uploadFile() {
     formData.append('file', file);
 
     try {
-        const response = await fetch('http://localhost:5000/upload', { // Update the URL to match your server's endpoint
+        const response = await fetch('https://ai.services.hax.psu.edu/upload-docx', { // Update the URL to match your server's endpoint
             method: 'POST',
             body: formData
         });
