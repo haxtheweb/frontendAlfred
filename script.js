@@ -176,3 +176,27 @@ async function uploadFile() {
         document.getElementById('uploadResponse').innerText = 'An error occurred during file upload.';
     }
 }
+
+document.getElementById('fetchButtonICDS').addEventListener('click', function() {
+
+    const apiUrl = `https://ai.services.hax.psu.edu/fetch-docx-courses`;
+
+    fetch(apiUrl) 
+        .then(response => response.json())
+        .then(data => {
+            const dropdown = document.getElementById('icds-course');
+            dropdown.innerHTML = '';  
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = '--Select a course--';
+            dropdown.appendChild(defaultOption);
+
+            data.forEach(course => {
+                const newOption = document.createElement('option');
+                newOption.value = course.value;
+                newOption.textContent = course.label;
+                dropdown.appendChild(newOption);
+            });
+        })
+        .catch(error => console.error('Error fetching courses:', error));
+});
