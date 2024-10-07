@@ -167,7 +167,7 @@ async function uploadFile() {
 
         if (response.ok) {
             const result = await response.json();
-            document.getElementById('uploadResponse').innerText = 'File uploaded successfully: ' + result.text;
+            document.getElementById('uploadResponse').innerText = 'File uploaded successfully: ';
         } else {
             document.getElementById('uploadResponse').innerText = 'File upload failed: ' + response.statusText;
         }
