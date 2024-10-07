@@ -6,9 +6,10 @@ body {
 }
 
 .form-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
+    width: 80%; /* Use a percentage to make the form responsive */
+    max-width: 1200px; /* Optional: set a maximum width */
+    margin: 50px auto; /* Center the container */
+    padding: 40px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
