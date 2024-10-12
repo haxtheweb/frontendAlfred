@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: call-ollama on ICDS
+  description: ask ollama a question running on ICDS
+  version: 1.0.0
+servers:
+  - url: https://ai.services.hax.psu.edu/call-ollama
+    description: HAX AI services server
+paths:
+  /my-endpoint:
+    post:
+      summary: Submit course and query to ollama API
+      description: This endpoint allows you to submit a course and a single query
+      requestBody:
+        description: The input data structure
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                course:
+                  type: string
+              required:
+                - query
+                - course
+      responses:
+        '200':
+          description: Successfully submitted data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  result:
+                    type: string
+                    example: "Greek Temples were typically rectangular or oblong (i.e., oval) in shape with a triangular pediment at the front, representing an open sky..."
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    
