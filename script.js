@@ -200,3 +200,49 @@ document.getElementById('fetchButtonICDS').addEventListener('click', function() 
         })
         .catch(error => console.error('Error fetching courses:', error));
 });
+
+
+
+
+//new for building course
+document.getElementById('buildCourseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    document.getElementById('spinner').style.display = 'block';
+
+    const question = document.getElementById('buildCourse').value;
+    const course = "NEW";
+
+    const data = {
+        query: question,
+        course: course
+    }; 
+
+    const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+        mode: 'cors'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const content = data.result;
+        document.getElementById('buildCourse-response').innerText = content;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('response').innerText = 'An error occurred';
+    })
+    .finally(() => {
+        document.getElementById('spinner').style.display = 'none';
+    });
+});
