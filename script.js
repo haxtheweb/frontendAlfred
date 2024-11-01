@@ -237,6 +237,7 @@ document.getElementById('buildCourseForm').addEventListener('submit', function(e
     .then(data => {
         const content = data.result;
         document.getElementById('buildCourse-response').innerText = content;
+        document.getElementById('buildCourse-response').innerText = "test";
     })
     .catch(error => {
         console.error('Error:', error);
