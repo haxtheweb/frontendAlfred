@@ -246,6 +246,7 @@ document.getElementById('buildCourseForm').addEventListener('submit', function(e
     })
     .then(data => {
         const content = data.result;
+        console.log("Content:", content);
         document.getElementById('buildCourse-response').innerText = content;
     })
     .catch(error => {
