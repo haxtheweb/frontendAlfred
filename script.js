@@ -118,7 +118,7 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
     }; 
 
     //const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
-    const apiUrl = `/api/apiProxy`;
+    const apiUrl = `https://ai.hax.cloud/api/apiProxy`;
 
     /*
     fetch(apiUrl, {
@@ -229,7 +229,7 @@ document.getElementById('buildCourseForm').addEventListener('submit', function(e
     }; 
 
     //const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
-    const apiUrl = `/api/apiProxy`;
+    const apiUrl = `https://ai.hax.cloud/api/apiProxy`;
 
     fetch(apiUrl, {
         method: 'POST',
