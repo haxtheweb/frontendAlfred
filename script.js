@@ -117,8 +117,10 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
         course: course
     }; 
 
-    const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
+    //const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
+    const apiUrl = `/api/apiProxy`;
 
+    /*
     fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -126,6 +128,14 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
         },
         body: JSON.stringify(data),
         mode: 'cors'
+    })
+    */
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
@@ -218,15 +228,15 @@ document.getElementById('buildCourseForm').addEventListener('submit', function(e
         course: course
     }; 
 
-    const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
+    //const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
+    const apiUrl = `/api/apiProxy`;
 
     fetch(apiUrl, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
-        mode: 'cors'
+        body: JSON.stringify(data)
     })
     .then(response => {
         if (!response.ok) {
