@@ -41,6 +41,14 @@ paths:
                   result:
                     type: string
                     example: "Greek Temples were typically rectangular or oblong (i.e., oval) in shape with a triangular pediment at the front, representing an open sky..."
+                  suggestions:
+                    type: array
+                    items: 
+                      type: string
+                      example: 
+                        - "suggestion1": "What was the significance of the mastaba's design in relation to the ancient Egyptian beliefs about the afterlife and the process of mummification?"
+                        - "suggestion2": "How did the architectural features of the mastaba reflect the social status or wealth of the individual buried within it?"
+                        - "suggestion3": "What role did the orientation of the mastaba play in aligning with important astronomical phenomena during the time of burial?"
         '400':
           description: Bad request
           content:
