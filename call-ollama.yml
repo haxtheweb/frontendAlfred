@@ -23,6 +23,8 @@ paths:
                   type: string
                 course:
                   type: string
+                hasSuggestions:
+                  type: boolean
               required:
                 - query
                 - course
