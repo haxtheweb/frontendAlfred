@@ -179,7 +179,8 @@ async function uploadFile() {
             const result = await response.json();
             document.getElementById('uploadResponse').innerText = 'File uploaded successfully: ';
         } else {
-            document.getElementById('uploadResponse').innerText = 'File upload failed: ' + response.statusText;
+            const error = await response.json(); // Parse error response
+            document.getElementById('uploadResponse').innerText = `File upload failed: ${error.detail || response.statusText}`;
         }
     } catch (error) {
         console.error('Error:', error);
