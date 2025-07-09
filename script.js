@@ -114,7 +114,8 @@ document.getElementById('icdsForm').addEventListener('submit', function(event) {
 
     const data = {
         query: question,
-        course: course
+        course: course,
+        hasSuggestions: false  // Add this line
     }; 
 
     //const apiUrl = `https://ai.services.hax.psu.edu/call-ollama`;
