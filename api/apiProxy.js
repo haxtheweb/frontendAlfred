@@ -75,7 +75,7 @@ export default async function handler(req, res) {
             rejectUnauthorized: false  // Disable SSL verification
         });
         
-        const response = await fetch("https://ai.services.hax.psu.edu/call-ollama", {
+        const response = await fetch("http://ai.services.hax.psu.edu/call-ollama", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
