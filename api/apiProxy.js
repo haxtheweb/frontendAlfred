@@ -105,8 +105,6 @@ export default async function handler(req, res) {
     }
 }
 */
-
-
 export default async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -130,24 +128,54 @@ export default async function handler(req, res) {
     }
     
     try {
-        // Import https module for SSL bypass
-        const https = require('https');
-        
-        // Create agent that bypasses SSL verification for the problematic PSU server
-        const agent = new https.Agent({
-            rejectUnauthorized: false  // Bypasses SSL certificate chain issues
-        });
+        // We'll use the built-in Node.js https module instead of fetch
+        // because fetch doesn't properly support SSL bypass in Vercel's environment
         
         console.log("Making request to PSU server...");
         
-        const response = await fetch("https://ai.services.hax.psu.edu/call-ollama", {
+        // Use the built-in Node.js https module with custom agent
+        const https = require('https');
+        const { URL } = require('url');
+        
+        const url = new URL("https://ai.services.hax.psu.edu/call-ollama");
+        const postData = JSON.stringify(req.body);
+        
+        const options = {
+            hostname: url.hostname,
+            port: url.port || 443,
+            path: url.pathname,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`,
+                'Content-Length': Buffer.byteLength(postData)
             },
-            body: JSON.stringify(req.body),
-            agent: agent  // Use SSL bypass agent
+            rejectUnauthorized: false  // Bypass SSL verification
+        };
+        
+        const response = await new Promise((resolve, reject) => {
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', (chunk) => {
+                    data += chunk;
+                });
+                res.on('end', () => {
+                    resolve({
+                        ok: res.statusCode >= 200 && res.statusCode < 300,
+                        status: res.statusCode,
+                        statusText: res.statusMessage,
+                        json: () => Promise.resolve(JSON.parse(data)),
+                        text: () => Promise.resolve(data)
+                    });
+                });
+            });
+            
+            req.on('error', (error) => {
+                reject(error);
+            });
+            
+            req.write(postData);
+            req.end();
         });
         
         console.log("PSU server response status:", response.status);
