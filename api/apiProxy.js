@@ -49,6 +49,7 @@ export default async function handler(req, res) {
 }
 */
 
+/* ORIG before SSL
 export default async function handler(req, res) {
     // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -97,6 +98,73 @@ export default async function handler(req, res) {
         
     } catch (error) {
         console.error('Proxy error:', error);
+        res.status(500).json({ 
+            error: "An error occurred while processing your request.",
+            details: error.message
+        });
+    }
+}
+*/
+
+
+export default async function handler(req, res) {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    
+    const apiKey = process.env.API_KEY;
+    console.log("API Proxy - Incoming request for:", req.url);
+    console.log("Request method:", req.method);
+    console.log("Request body keys:", Object.keys(req.body || {}));
+    
+    if (!apiKey) {
+        console.error("API key not configured");
+        return res.status(500).json({ error: "API key not configured" });
+    }
+    
+    try {
+        // Import https module for SSL bypass
+        const https = require('https');
+        
+        // Create agent that bypasses SSL verification for the problematic PSU server
+        const agent = new https.Agent({
+            rejectUnauthorized: false  // Bypasses SSL certificate chain issues
+        });
+        
+        console.log("Making request to PSU server...");
+        
+        const response = await fetch("https://ai.services.hax.psu.edu/call-ollama", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify(req.body),
+            agent: agent  // Use SSL bypass agent
+        });
+        
+        console.log("PSU server response status:", response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("PSU server error:", response.status, errorText);
+            throw new Error(`PSU API failed: ${response.status} - ${errorText}`);
+        }
+        
+        const data = await response.json();
+        console.log("PSU server success - response keys:", Object.keys(data));
+        res.status(200).json(data);
+        
+    } catch (error) {
+        console.error('API Proxy error:', error.message);
+        console.error('Error details:', error);
         res.status(500).json({ 
             error: "An error occurred while processing your request.",
             details: error.message
