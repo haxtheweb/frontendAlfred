@@ -9,6 +9,23 @@
 <body>
     <div class="form-container">
 
+        <form id="altTextForm">
+            <h1>Generate Alt Text for Images</h1>
+            <br><br>
+            <label for="imageUrl">Image URL:</label>
+            <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg" required>
+            <label for="keywords">Keywords (optional):</label>
+            <input type="text" id="keywords" name="keywords" placeholder="cat pet animal">
+            <button type="submit">Generate Alt Text</button>
+        </form>
+
+        <h2>Generated Alt Text:</h2>
+        <div id="altText-response"></div>
+
+        <br><br>
+        <br><br>
+        <hr>
+        
         <form id="buildCourseForm">
             <h1>Build a New Course</h1>
             <br><br>

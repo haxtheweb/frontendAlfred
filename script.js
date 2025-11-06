@@ -1,3 +1,58 @@
+// Alt Text Generator Form
+document.getElementById('altTextForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    document.getElementById('spinner').style.display = 'block';
+
+    const imageUrl = document.getElementById('imageUrl').value;
+    const keywords = document.getElementById('keywords').value;
+
+    const data = {
+        image_url: imageUrl,
+        keywords: keywords
+    };
+
+    const apiUrl = `https://ai.services.hax.psu.edu/generate-alt-text`;
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+        mode: 'cors'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        const responseDiv = document.getElementById('altText-response');
+        responseDiv.innerHTML = `
+            <div style="background-color: #e8f5e8; border: 1px solid #4CAF50; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <h3>Alt Text:</h3>
+                <p style="font-size: 16px; font-weight: bold; color: #2E7D32;">${data.alt_text}</p>
+                <p><strong>Character Count:</strong> ${data.character_count}</p>
+                <p><strong>Model:</strong> ${data.model}</p>
+            </div>
+        `;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('altText-response').innerHTML = `
+            <div style="background-color: #ffebee; border: 1px solid #f44336; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p style="color: #c62828;"><strong>Error:</strong> ${error.message}</p>
+                <p style="color: #666;">Please check the image URL and try again.</p>
+            </div>
+        `;
+    })
+    .finally(() => {
+        document.getElementById('spinner').style.display = 'none';
+    });
+});
+
 document.getElementById('apiForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
