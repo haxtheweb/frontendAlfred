@@ -166,19 +166,28 @@
             button.disabled = true;
 
             try {
-                const response = await fetch('validate-access.json');
-                if (!response.ok) {
-                    throw new Error(`Failed to load config: ${response.status}`);
+                // Read from environment variable (set in Vercel dashboard)
+                // Format: VITE_ACCESS_CODE
+                const correctCode = '__VITE_ACCESS_CODE__';
+                
+                // Fallback for development
+                if (correctCode === '__VITE_ACCESS_CODE__') {
+                    try {
+                        // Try to load from validate-access.json for local development
+                        const response = await fetch('validate-access.json');
+                        if (response.ok) {
+                            const config = await response.json();
+                            correctCode = config.accessCode;
+                        }
+                    } catch (e) {
+                        console.log('Using environment variable for access code');
+                    }
                 }
                 
-                const config = await response.json();
-                console.log('Config loaded:', config); // Debug log
+                console.log('Access code loaded (env or fallback)');
+                console.log('Entered code:', code);
                 
-                const correctCode = config.accessCode;
-                console.log('Entered code:', code); // Debug log
-                console.log('Expected code:', correctCode); // Debug log
-                
-                // Trim whitespace just in case
+                // Trim whitespace and compare
                 if (code.trim() === correctCode.trim()) {
                     sessionStorage.setItem('alfred_auth', 'true');
                     sessionStorage.setItem('alfred_auth_time', Date.now());
@@ -189,7 +198,7 @@
             } catch (error) {
                 errorDiv.textContent = error.message || 'Failed to validate. Please try again.';
                 errorDiv.style.display = 'block';
-                console.error('Login error:', error); // Debug log
+                console.error('Login error:', error);
                 button.disabled = false;
                 spinner.style.display = 'none';
             }
