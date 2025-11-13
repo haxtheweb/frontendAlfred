@@ -256,15 +256,12 @@ async function extractTextFromFile(file) {
  * Extract text from DOCX
  */
 async function extractDocxText(file) {
-    // Simple extraction: DOCX is a ZIP with XML files
-    // For production, use a library like mammoth.js or send to backend
+    // Send to backend for text extraction (simple, not storing)
     try {
-        const arrayBuffer = await file.arrayBuffer();
-        // Send to backend for proper extraction
         const formData = new FormData();
         formData.append('file', file);
         
-        const response = await fetch(`${BACKEND_URL}/upload-docx`, {
+        const response = await fetch(`${BACKEND_URL}/extract-text`, {
             method: 'POST',
             body: formData,
             mode: 'cors'
@@ -272,9 +269,10 @@ async function extractDocxText(file) {
         
         if (response.ok) {
             const result = await response.json();
-            return result.text || 'Document uploaded successfully';
+            return result.text || 'Could not extract text from DOCX';
         } else {
-            throw new Error('Failed to process DOCX file');
+            const error = await response.json();
+            throw new Error(error.detail || 'Failed to process DOCX file');
         }
     } catch (error) {
         throw new Error('Could not extract DOCX text: ' + error.message);
