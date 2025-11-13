@@ -1,1 +1,189 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Alfred Chat - Login</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            padding: 20px;\n        }\n\n        .login-container {\n            background: white;\n            border-radius: 10px;\n            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);\n            padding: 40px;\n            max-width: 400px;\n            width: 100%;\n        }\n\n        .logo {\n            text-align: center;\n            margin-bottom: 30px;\n        }\n\n        .logo h1 {\n            font-size: 32px;\n            color: #333;\n            margin-bottom: 10px;\n        }\n\n        .logo p {\n            color: #666;\n            font-size: 14px;\n        }\n\n        .form-group {\n            margin-bottom: 20px;\n        }\n\n        label {\n            display: block;\n            margin-bottom: 8px;\n            color: #333;\n            font-weight: 500;\n            font-size: 14px;\n        }\n\n        input[type=\"password\"] {\n            width: 100%;\n            padding: 12px;\n            border: 2px solid #e0e0e0;\n            border-radius: 6px;\n            font-size: 16px;\n            transition: border-color 0.3s;\n        }\n\n        input[type=\"password\"]:focus {\n            outline: none;\n            border-color: #667eea;\n        }\n\n        button {\n            width: 100%;\n            padding: 12px;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            border: none;\n            border-radius: 6px;\n            font-size: 16px;\n            font-weight: 600;\n            cursor: pointer;\n            transition: transform 0.2s, box-shadow 0.2s;\n        }\n\n        button:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);\n        }\n\n        button:active {\n            transform: translateY(0);\n        }\n\n        .error-message {\n            color: #d32f2f;\n            font-size: 14px;\n            margin-top: 10px;\n            text-align: center;\n            display: none;\n        }\n\n        .info-text {\n            text-align: center;\n            color: #999;\n            font-size: 12px;\n            margin-top: 20px;\n        }\n\n        .spinner {\n            display: none;\n            width: 16px;\n            height: 16px;\n            border: 2px solid #f3f3f3;\n            border-top: 2px solid #667eea;\n            border-radius: 50%;\n            animation: spin 1s linear infinite;\n            margin: 0 auto;\n        }\n\n        @keyframes spin {\n            0% { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"login-container\">\n        <div class=\"logo\">\n            <h1>🤖 Alfred</h1>\n            <p>AI Chat Interface</p>\n        </div>\n\n        <form id=\"loginForm\">\n            <div class=\"form-group\">\n                <label for=\"accessCode\">Access Code</label>\n                <input\n                    type=\"password\"\n                    id=\"accessCode\"\n                    name=\"accessCode\"\n                    placeholder=\"Enter access code\"\n                    required\n                    autofocus\n                >\n            </div>\n            <button type=\"submit\">Login</button>\n            <div class=\"spinner\" id=\"spinner\"></div>\n        </form>\n\n        <div class=\"error-message\" id=\"errorMessage\"></div>\n        <p class=\"info-text\">Contact administrator for access code</p>\n    </div>\n\n    <script>\n        document.getElementById('loginForm').addEventListener('submit', async (e) => {\n            e.preventDefault();\n            const code = document.getElementById('accessCode').value;\n            const errorDiv = document.getElementById('errorMessage');\n            const spinner = document.getElementById('spinner');\n            const button = e.target.querySelector('button');\n\n            errorDiv.style.display = 'none';\n            spinner.style.display = 'block';\n            button.disabled = true;\n\n            try {\n                // Simple client-side validation\n                // For real security, validate on backend too\n                const response = await fetch('validate-access.json');\n                const config = await response.json();\n                const correctCode = config.accessCode;\n\n                if (code === correctCode) {\n                    // Store auth token in sessionStorage (not localStorage for better security)\n                    sessionStorage.setItem('alfred_auth', 'true');\n                    sessionStorage.setItem('alfred_auth_time', Date.now());\n                    window.location.href = 'index.html';\n                } else {\n                    throw new Error('Invalid access code');\n                }\n            } catch (error) {\n                errorDiv.textContent = error.message || 'Failed to validate. Please try again.';\n                errorDiv.style.display = 'block';\n                button.disabled = false;\n                spinner.style.display = 'none';\n            }\n        });\n    </script>\n</body>\n</html>"}}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfred Chat - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .info-text {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🤖 Alfred</h1>
+            <p>AI Chat Interface</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="accessCode">Access Code</label>
+                <input
+                    type="password"
+                    id="accessCode"
+                    name="accessCode"
+                    placeholder="Enter access code"
+                    required
+                    autofocus
+                >
+            </div>
+            <button type="submit">Login</button>
+            <div class="spinner" id="spinner"></div>
+        </form>
+
+        <div class="error-message" id="errorMessage"></div>
+        <p class="info-text">Contact administrator for access code</p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = document.getElementById('accessCode').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const spinner = document.getElementById('spinner');
+            const button = e.target.querySelector('button');
+
+            errorDiv.style.display = 'none';
+            spinner.style.display = 'block';
+            button.disabled = true;
+
+            try {
+                const response = await fetch('validate-access.json');
+                const config = await response.json();
+                const correctCode = config.accessCode;
+
+                if (code === correctCode) {
+                    sessionStorage.setItem('alfred_auth', 'true');
+                    sessionStorage.setItem('alfred_auth_time', Date.now());
+                    window.location.href = 'index.html';
+                } else {
+                    throw new Error('Invalid access code');
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message || 'Failed to validate. Please try again.';
+                errorDiv.style.display = 'block';
+                button.disabled = false;
+                spinner.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
