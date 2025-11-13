@@ -10,9 +10,23 @@ const BACKEND_URL = 'https://ai.services.hax.psu.edu';
 const CHAT_ENDPOINT = '/chat';
 
 // Initialize chat event listeners
+const chatFormEl = document.getElementById('chatForm');
+const chatTextEl = document.getElementById('chatTextInput');
+
 document.getElementById('chatForm').addEventListener('submit', handleChatSubmit);
 document.getElementById('clearChatButton').addEventListener('click', clearChat);
 document.getElementById('addContextButton').addEventListener('click', handleAddContext);
+
+// Enter to send (Shift+Enter inserts newline)
+chatTextEl.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        chatFormEl.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    }
+});
+
+// Initialize voice recognition (Chrome)
+initializeVoiceRecognition();
 
 /**
  * Handle chat form submission
@@ -353,3 +367,74 @@ document.addEventListener('DOMContentLoaded', function() {
     );
     updateContextIndicator();
 });
+
+// Voice recognition using Web Speech API
+function initializeVoiceRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const voiceBtn = document.getElementById('voiceButton');
+    if (!voiceBtn) return;
+
+    if (!SpeechRecognition) {
+        // Disable button if not supported
+        voiceBtn.disabled = true;
+        voiceBtn.title = 'Voice input not supported in this browser';
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    let recognizing = false;
+
+    recognition.onstart = () => {
+        recognizing = true;
+        updateVoiceButtonUI(true);
+    };
+
+    recognition.onend = () => {
+        recognizing = false;
+        updateVoiceButtonUI(false);
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Voice recognition error:', event.error);
+        recognizing = false;
+        updateVoiceButtonUI(false);
+    };
+
+    recognition.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+        }
+        chatTextEl.value = transcript;
+        chatTextEl.focus();
+    };
+
+    voiceBtn.addEventListener('click', () => {
+        if (recognizing) {
+            recognition.stop();
+        } else {
+            try {
+                recognition.start();
+            } catch (e) {
+                // Some browsers throw if start is called rapidly
+                console.error('Voice start error:', e);
+            }
+        }
+    });
+
+    function updateVoiceButtonUI(active) {
+        if (active) {
+            voiceBtn.classList.add('recording');
+            voiceBtn.textContent = '⏺';
+            voiceBtn.title = 'Stop voice input';
+        } else {
+            voiceBtn.classList.remove('recording');
+            voiceBtn.textContent = '🎤';
+            voiceBtn.title = 'Start voice input';
+        }
+    }
+}
