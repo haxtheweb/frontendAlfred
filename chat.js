@@ -7,7 +7,7 @@ const chatState = {
 };
 
 const BACKEND_URL = 'https://ai.services.hax.psu.edu';
-const CHAT_ENDPOINT = '/call-ollama';
+const CHAT_ENDPOINT = '/chat';
 
 // Initialize chat event listeners
 document.getElementById('chatForm').addEventListener('submit', handleChatSubmit);
@@ -54,8 +54,7 @@ async function handleChatSubmit(event) {
             },
             body: JSON.stringify({
                 query: fullPrompt,
-                course: 'CHAT',
-                hasSuggestions: false
+                context: chatState.context || ''
             }),
             mode: 'cors'
         });
