@@ -154,6 +154,10 @@
     </div>
 
     <script>
+        // This will be replaced at build time by Vercel with the actual environment variable
+        // Set VITE_ACCESS_CODE environment variable in Vercel
+        window.ACCESS_CODE_CONFIG = 'VITE_ACCESS_CODE_PLACEHOLDER';
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const code = document.getElementById('accessCode').value;
@@ -166,25 +170,25 @@
             button.disabled = true;
 
             try {
-                // Read from environment variable (set in Vercel dashboard)
-                // Format: VITE_ACCESS_CODE
-                const correctCode = '__VITE_ACCESS_CODE__';
+                // Try to get from environment variable (Vercel)
+                let correctCode = window.ACCESS_CODE_CONFIG;
                 
-                // Fallback for development
-                if (correctCode === '__VITE_ACCESS_CODE__') {
+                // Fallback for local development: load from validate-access.json
+                if (correctCode === 'VITE_ACCESS_CODE_PLACEHOLDER') {
                     try {
-                        // Try to load from validate-access.json for local development
                         const response = await fetch('validate-access.json');
                         if (response.ok) {
                             const config = await response.json();
                             correctCode = config.accessCode;
+                            console.log('Using validate-access.json for local development');
                         }
                     } catch (e) {
-                        console.log('Using environment variable for access code');
+                        console.error('Could not load access code from anywhere:', e);
                     }
+                } else {
+                    console.log('Using environment variable for access code');
                 }
                 
-                console.log('Access code loaded (env or fallback)');
                 console.log('Entered code:', code);
                 
                 // Trim whitespace and compare

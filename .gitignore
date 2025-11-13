@@ -1,2 +1,5 @@
 .vercel
 validate-access.json
+.env.local
+.env
+*.env*
