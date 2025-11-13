@@ -167,10 +167,19 @@
 
             try {
                 const response = await fetch('validate-access.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load config: ${response.status}`);
+                }
+                
                 const config = await response.json();
+                console.log('Config loaded:', config); // Debug log
+                
                 const correctCode = config.accessCode;
-
-                if (code === correctCode) {
+                console.log('Entered code:', code); // Debug log
+                console.log('Expected code:', correctCode); // Debug log
+                
+                // Trim whitespace just in case
+                if (code.trim() === correctCode.trim()) {
                     sessionStorage.setItem('alfred_auth', 'true');
                     sessionStorage.setItem('alfred_auth_time', Date.now());
                     window.location.href = 'index.html';
@@ -180,6 +189,7 @@
             } catch (error) {
                 errorDiv.textContent = error.message || 'Failed to validate. Please try again.';
                 errorDiv.style.display = 'block';
+                console.error('Login error:', error); // Debug log
                 button.disabled = false;
                 spinner.style.display = 'none';
             }
