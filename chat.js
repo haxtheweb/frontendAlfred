@@ -309,8 +309,15 @@ async function handleUrlContext(url) {
         });
         
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.detail || `Failed to fetch URL (${response.status})`);
+            // Try to parse JSON error; fall back to plain text/status
+            try {
+                const error = await response.json();
+                const msg = typeof error === 'string' ? error : (error.detail || JSON.stringify(error));
+                throw new Error(msg || `Failed to fetch URL (${response.status})`);
+            } catch (e) {
+                const text = await response.text().catch(() => '');
+                throw new Error(text || `Failed to fetch URL (${response.status})`);
+            }
         }
         
         const data = await response.json();
