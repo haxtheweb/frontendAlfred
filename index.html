@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask Alfred</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        // Check if user is authenticated
+        if (!sessionStorage.getItem('alfred_auth')) {
+            window.location.href = 'auth.html';
+        }
+    </script>
 </head>
 <body>
     <!-- Main Container -->
