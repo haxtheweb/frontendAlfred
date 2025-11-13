@@ -294,15 +294,33 @@ async function extractPdfText(file) {
  */
 async function handleUrlContext(url) {
     try {
-        // Validate URL
+        // Validate URL format
         new URL(url);
         
-        // For now, store the URL as context
-        // In production, you might want to fetch and extract text from the URL
-        chatState.context = `URL: ${url}\n\nReference: The user will discuss content from this URL. Please consider this source in your responses.`;
-        chatState.contextType = url;
+        // Fetch content from URL via backend
+        console.log('Fetching content from URL:', url);
+        const response = await fetch(`${BACKEND_URL}/fetch-url`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url: url }),
+            mode: 'cors'
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || `Failed to fetch URL (${response.status})`);
+        }
+        
+        const data = await response.json();
+        console.log('Successfully fetched URL content:', data.character_count, 'characters');
+        
+        // Store the fetched content as context
+        chatState.context = `URL Content from: ${data.title || url}\n\n${data.text}`;
+        chatState.contextType = data.title || url;
     } catch (error) {
-        throw new Error('Invalid URL format');
+        throw new Error('Could not fetch URL content: ' + error.message);
     }
 }
 
