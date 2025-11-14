@@ -154,9 +154,40 @@
     </div>
 
     <script>
-        // This will be replaced at build time by Vercel with the actual environment variable
-        // Set VITE_ACCESS_CODE environment variable in Vercel
-        window.ACCESS_CODE_CONFIG = 'VITE_ACCESS_CODE_PLACEHOLDER';
+        // Fetch the access code from the API endpoint
+        let correctCode = null;
+
+        async function getAccessCode() {
+            try {
+                // Try to get from API endpoint (works on Vercel)
+                const response = await fetch('/api/config');
+                if (response.ok) {
+                    const config = await response.json();
+                    correctCode = config.accessCode;
+                    console.log('Using access code from API endpoint');
+                    return;
+                }
+            } catch (e) {
+                console.warn('Could not load from API endpoint:', e);
+            }
+            
+            // Fallback for local development: load from validate-access.json
+            try {
+                const response = await fetch('validate-access.json');
+                if (response.ok) {
+                    const config = await response.json();
+                    correctCode = config.accessCode;
+                    console.log('Using validate-access.json for local development');
+                    return;
+                }
+            } catch (e) {
+                console.warn('Could not load from validate-access.json:', e);
+            }
+            
+            // Final fallback to hardcoded default
+            correctCode = 'alfred2024';
+            console.log('Using default access code');
+        }
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -170,26 +201,12 @@
             button.disabled = true;
 
             try {
-                // Try to get from environment variable (Vercel)
-                let correctCode = window.ACCESS_CODE_CONFIG;
-                
-                // Fallback for local development: load from validate-access.json
-                if (correctCode === 'VITE_ACCESS_CODE_PLACEHOLDER') {
-                    try {
-                        const response = await fetch('validate-access.json');
-                        if (response.ok) {
-                            const config = await response.json();
-                            correctCode = config.accessCode;
-                            console.log('Using validate-access.json for local development');
-                        }
-                    } catch (e) {
-                        console.error('Could not load access code from anywhere:', e);
-                    }
-                } else {
-                    console.log('Using environment variable for access code');
+                // Ensure we have the access code
+                if (!correctCode) {
+                    await getAccessCode();
                 }
                 
-                console.log('Entered code:', code);
+                console.log('Access code loaded. Verifying...');
                 
                 // Trim whitespace and compare
                 if (code.trim() === correctCode.trim()) {
@@ -207,6 +224,9 @@
                 spinner.style.display = 'none';
             }
         });
+        
+        // Pre-load the access code when page loads
+        window.addEventListener('load', getAccessCode);
     </script>
 </body>
 </html>

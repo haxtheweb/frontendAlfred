@@ -1,6 +1,4 @@
 {"version": 2,
-"installCommand": "",
-"buildCommand": "node build-inject-env.js",
 "functions": {
   "api/*.js": {
     "maxDuration": 300
