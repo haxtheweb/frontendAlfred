@@ -277,34 +277,33 @@ button:hover {
 .chat-upload-section-bottom {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 10px 15px 12px 15px;
+    gap: 4px;
+    padding: 8px 12px;
     background-color: #f9f9f9;
     border-top: 1px solid #e0e0e0;
     flex-shrink: 0;
-    overflow-y: auto;
-    max-height: 200px;
 }
 
 .chat-upload-section-bottom label {
-    font-size: 11px;
+    font-size: 10px;
     margin-bottom: 0;
     color: #666;
     font-weight: 600;
 }
 
 .chat-upload-section-bottom input {
-    padding: 8px 10px;
+    padding: 6px 8px;
     font-size: 12px;
-    margin-bottom: 4px;
+    margin-bottom: 0;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
 .chat-upload-section-bottom .context-btn {
-    padding: 8px 10px;
-    font-size: 12px;
+    padding: 6px 8px;
+    font-size: 11px;
     margin-bottom: 0;
+    margin-top: 2px;
 }
 
 .chat-upload-section {
