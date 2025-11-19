@@ -342,8 +342,16 @@ button:hover {
 
 .chat-message-input {
     display: flex;
-    gap: 10px;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.chat-buttons-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
 }
 
 #chatTextInput {
@@ -360,7 +368,7 @@ button:hover {
 }
 
 .send-btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     background-color: #28a745;
     color: white;
     border: none;
@@ -369,7 +377,7 @@ button:hover {
     font-size: 14px;
     font-weight: bold;
     flex-shrink: 0;
-    height: 100%;
+    white-space: nowrap;
 }
 
 .send-btn:hover {
@@ -390,6 +398,8 @@ button:hover {
     cursor: pointer;
     font-size: 16px;
     flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .voice-btn:hover {
@@ -530,17 +540,22 @@ button:hover {
         resize: none;
     }
     
-    .send-btn {
+    .chat-buttons-row {
+        display: flex;
+        gap: 8px;
         width: 100%;
-        padding: 12px;
-        font-size: 14px;
-        height: auto;
+    }
+    
+    .send-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+        flex-shrink: 0;
     }
     
     .voice-btn {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
+        padding: 10px 12px;
+        font-size: 14px;
+        flex-shrink: 0;
     }
     
     #response,
