@@ -146,6 +146,7 @@ button:hover {
     flex-direction: column;
     z-index: 1000;
     box-shadow: none;
+    overflow: hidden;
 }
 
 .chat-header {
@@ -178,13 +179,14 @@ button:hover {
 }
 
 .chat-messages {
-    flex: 1;
+    flex: 1 1 auto;
     overflow-y: auto;
-    padding: 20px;
+    padding: 15px 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     background-color: #fafafa;
+    min-height: 200px;
 }
 
 .chat-message {
@@ -244,9 +246,10 @@ button:hover {
 }
 
 .chat-context-info {
-    padding: 10px 20px;
+    padding: 8px 20px;
     border-bottom: 1px solid #e0e0e0;
     background-color: #f1f3f5;
+    flex-shrink: 0;
 }
 
 .context-badge {
@@ -265,31 +268,58 @@ button:hover {
 }
 
 .chat-input-area {
-    padding: 20px;
+    padding: 15px 20px;
     border-top: 1px solid #e0e0e0;
     background-color: #fff;
+    flex-shrink: 0;
 }
 
-.chat-upload-section {
+.chat-upload-section-bottom {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 12px;
-    align-items: stretch;
+    padding: 12px 20px 15px 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+    flex-shrink: 0;
+}
+
+.chat-upload-section-bottom label {
+    font-size: 12px;
+    margin-bottom: 0;
+    color: #666;
+}
+
+.chat-upload-section-bottom input {
+    padding: 8px 10px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.chat-upload-section-bottom .context-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.chat-upload-section {
+    display: none;
 }
 
 #chatFileInput {
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    flex-shrink: 0;
+    font-size: 13px;
 }
 
 #chatUrlInput {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .context-btn {
@@ -431,8 +461,9 @@ button:hover {
     }
     
     .chat-messages {
-        padding: 12px;
+        padding: 10px 12px;
         gap: 8px;
+        min-height: 150px;
     }
     
     .message-avatar {
