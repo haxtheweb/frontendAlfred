@@ -1,8 +1,17 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
 }
 
 .main-container {
@@ -263,9 +272,10 @@ button:hover {
 
 .chat-upload-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: stretch;
 }
 
 #chatFileInput {
@@ -357,22 +367,204 @@ button:hover {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    
+    .main-container {
+        height: 100dvh; /* Use dynamic viewport height for mobile */
+    }
+    
+    .tab-navigation {
+        padding: 8px 10px;
+        gap: 5px;
+    }
+    
+    .tab-button {
+        padding: 8px 12px;
+        font-size: 13px;
+        flex: 1;
+        text-align: center;
+    }
+    
+    .form-container {
+        width: 95%;
+        margin: 10px auto 40px auto;
+        padding: 15px;
+        max-width: 100%;
+    }
+    
+    h1 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    
+    h2 {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+    
+    label {
+        margin-bottom: 3px;
+        font-size: 13px;
+    }
+    
+    input, select, button {
+        margin-bottom: 10px;
+        padding: 12px;
+        font-size: 16px; /* Keep 16px for mobile to prevent zoom on focus */
+        border-radius: 4px;
+    }
+    
+    .chat-header {
+        padding: 12px;
+    }
+    
+    .chat-header h2 {
+        font-size: 18px;
+        margin: 0;
+    }
+    
+    .clear-chat-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .chat-messages {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+    
+    .message-content {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .chat-context-info {
+        padding: 8px 12px;
+    }
+    
+    .context-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+    
+    .chat-input-area {
+        padding: 12px;
+    }
+    
     .chat-upload-section {
         flex-direction: column;
+        gap: 6px;
+        margin-bottom: 8px;
+        max-height: none;
+        transition: max-height 0.3s ease;
     }
     
     #chatFileInput,
     #chatUrlInput,
     .context-btn {
         width: 100%;
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .context-btn {
+        font-size: 12px;
+        padding: 10px;
     }
     
     .chat-message-input {
         flex-direction: column;
+        gap: 8px;
     }
     
-    #chatTextInput,
+    #chatTextInput {
+        width: 100%;
+        padding: 12px;
+        min-height: 80px;
+        font-size: 16px;
+    }
+    
     .send-btn {
         width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        height: auto;
     }
+    
+    .voice-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    #response,
+    #icds-response,
+    #altText-response,
+    #buildCourse-response,
+    #uploadResponse {
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 13px;
+    }
+    
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #3498db;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .tab-button {
+        padding: 8px 8px;
+        font-size: 12px;
+    }
+    
+    .chat-header h2 {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 16px;
+        margin: 8px 0;
+    }
+    
+    h2 {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+    
+    .message-content {
+        font-size: 12px;
+    }
+    
+    hr {
+        margin: 8px 0;
+    }
+    
+    br {
+        line-height: 0.5;
+    }
+}
+
+/* Reduce excessive spacing */
+hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+br {
+    display: block;
+    content: "";
 }
